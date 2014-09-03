@@ -22,7 +22,14 @@ void Person::Clear(){
 }
 
 int Person::Unpack(LengthTextBuffer & Buffer){
-    return 1;
+    int result;
+    result = Buffer.Unpack(LastName);
+    result = result && Buffer.Unpack(FirstName);
+    result = result && Buffer.Unpack(Address);
+    result = result && Buffer.Unpack(City);
+    result = result && Buffer.Unpack(State);
+    result = result && Buffer.Unpack(ZipCode);
+    return result;
 }
 
 int Person::Pack(LengthTextBuffer & Buffer){
