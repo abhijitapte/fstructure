@@ -10,70 +10,111 @@ FixedTextBuffer::FixedTextBuffer(int maxFields, int maxChars){
 }
 
 //construct with a fields of specific size.
-FixedTextBuffer::FixedTextBuffer(int maxFields, int maxChars){
-    Init(maxFields, maxChars);
+FixedTextBuffer::FixedTextBuffer(int numFields, int *fieldSize){
+    Init(numFields, fieldSize);
+}
+
+int FixedTextBuffer::NumberOfFields() const{
+    return NumFields;
 }
 
 void FixedTextBuffer::Clear(){
-    NextBytes=0;
-    BufferSize=0;
+    NextField=0;
+    NextCharacter=0;
+    Packing=1;
+    Buffer[0]=0;
 }
 
-void FixedTextBuffer::Init(int maxBytes){
-    if(maxBytes<0) maxBytes=0;
-    MaxBytes = maxBytes;
-    Buffer = new char[MaxBytes];
-    Clear();
+void FixedTextBuffer::AddField(int fieldSize){
+    if(NumFields==MaxFields) return 0;
+    if(BufferSize + fieldSize > MaxChars) return 0;
+    FieldSize[NumFields] = fieldSize;
+    NumFields++;
+    BufferSize += fieldSize;
+    return 1;
+}
+
+void FixedTextBuffer::Init(int maxFields, int maxChars){
+    if(maxFields<0) maxFields=0;
+    if(maxChars<0) maxFields=0;
+    MaxFields=maxFields;
+    MaxChars=maxChars;
+    FieldSize = new int[MaxFields];
+    Buffer = new char[MaxChars];
+    BufferSize=0;
+    NumFields=0;
+    NextField=0;
+    Packing=1;
+}
+
+void FixedTextBuffer::Init(int numFields, int *fieldSize){
+    int bufferSize = 1;
+    for(int i=0; i< numFields; i++)
+        bufferSize += fieldSize[i];
+
+    Init(numFields, bufferSize);
+    for(i=0; i< numFields; i++)
+        AddField(fieldSize[i]);
 }
 
 int FixedTextBuffer::Read(istream & stream){
-    Clear();
-    stream.read((char *)&BufferSize, sizeof(BufferSize));
-    if(stream.fail()) return 0;
-    if(BufferSize > MaxBytes) return 0;
     stream.read(Buffer, BufferSize);
     return stream.good();
 }
 
 int FixedTextBuffer::Write(ostream & stream) {
-    stream.write((char*)(&BufferSize), sizeof(BufferSize));
     stream.write(Buffer, BufferSize);
     return stream.good();
 }
 
-int FixedTextBuffer::Pack(const char *str, short size){
-    short len;
+int FixedTextBuffer::Pack(const char *str){
+    if(NextField==NumFields || !Packing) return 0;
 
-    if(size>=0) len=size;
-    else len=strlen(str);
+    int len = strlen(str);
+    int start = NextCharacter;
+    int packSize = FieldSize[NextField];
 
-    if(len > strlen(str)) return 0;
+    strncpy(&Buffer[start], str, packSize);
+    NextCharacter += packSize;
+    NextField++
 
-    int start = NextBytes;
-    NextBytes += (len + sizeof(len));
-    if(NextBytes > MaxBytes) return 0;
-    memcpy(&Buffer[start], &len, sizeof(len));
-    strncpy(&Buffer[start+sizeof(len)], str, len);
-    BufferSize = NextBytes;
+    //if len < packSize
+    for(int i=start+len; i<NextCharacter; i++)
+        Buffer[i] = ' ';
+    Buffer[NextCharacter]=0;
+    if(NextField==NumFields){
+        Packing=0;
+        NextField=NextCharacter=0;
+    }
     return 1;
 }
 
 int FixedTextBuffer::Unpack(char *str){
     short len;
-    if(NextBytes >= BufferSize) return 0;
+    if(NextField >= NumFields||Packing) return 0;
 
-    int start = NextBytes;
-    memcpy(&len, &Buffer[start], sizeof(len));
-    NextBytes += (len + sizeof(len));
-    if(NextBytes > BufferSize) return 0;
-    strncpy(str, &Buffer[start+sizeof(len)], len);
-    str[len]=0;
+    int start = NextCharacter;
+    int packSize = FieldSize[NextField];
+
+    strncpy(str, &Buffer[start], packSize);
+    str[packSize]=0;
+    NextCharacter += packSize;
+    NextField++;
+    if(NextField >= NumFields)  Clear();
     return 1;
 }
 
 void FixedTextBuffer::Print(ostream & stream) const{
-    stream << "Buffer has characters " << MaxBytes
-        << "\nand Buffer size " << BufferSize << endl;
-}
+    stream << "Buffer has max fields " << MaxFields
+        << "\nand actual " << NumFields << endl
+        << "max bytes " << MaxChars << " and buffer size "
+        << BufferSize << endl;
 
+    for(int i=0; i<NumFields; i++)
+        stream << "\tfield" << i << " size" << FieldSize[i] << endl;
+
+    if(Packing) stream << "\tPacking\n";
+    else stream << "\tNot packing\n";
+    stream << "Contents : " << Buffer << endl;
+}
 
