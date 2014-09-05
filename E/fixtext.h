@@ -14,7 +14,7 @@ class FixedTextBuffer{
         int Unpack(char *);
         void Print(ostream &) const;
         void Init(int numFields, int maxChars=1000);
-        void Init(int numFields, int maxChars=1000);
+        void Init(int numFields, int *fieldSize);
     private:
         char * Buffer;      // character array to hold field values.
         int BufferSize;     // sum of sizes of declared fields.

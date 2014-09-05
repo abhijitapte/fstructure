@@ -13,4 +13,7 @@ class Person{
         void Clear();
         int Unpack(LengthTextBuffer &);
         int Pack(LengthTextBuffer &);
+        int Unpack(FixedTextBuffer &);
+        int Pack(FixedTextBuffer &);
+        static int InitBuffer(FixedTextBuffer &);
 };

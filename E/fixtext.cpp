@@ -1,7 +1,7 @@
 #include<string>
 #include<cstring>
 #include<iostream>
-#include"lentext.h"
+#include"fixtext.h"
 using namespace std;
 
 //construct with a maximum of maxFields.
@@ -25,7 +25,7 @@ void FixedTextBuffer::Clear(){
     Buffer[0]=0;
 }
 
-void FixedTextBuffer::AddField(int fieldSize){
+int FixedTextBuffer::AddField(int fieldSize){
     if(NumFields==MaxFields) return 0;
     if(BufferSize + fieldSize > MaxChars) return 0;
     FieldSize[NumFields] = fieldSize;
@@ -53,8 +53,8 @@ void FixedTextBuffer::Init(int numFields, int *fieldSize){
         bufferSize += fieldSize[i];
 
     Init(numFields, bufferSize);
-    for(i=0; i< numFields; i++)
-        AddField(fieldSize[i]);
+    for(int j=0; j< numFields; j++)
+        AddField(fieldSize[j]);
 }
 
 int FixedTextBuffer::Read(istream & stream){
@@ -76,7 +76,7 @@ int FixedTextBuffer::Pack(const char *str){
 
     strncpy(&Buffer[start], str, packSize);
     NextCharacter += packSize;
-    NextField++
+    NextField++;
 
     //if len < packSize
     for(int i=start+len; i<NextCharacter; i++)
@@ -111,10 +111,9 @@ void FixedTextBuffer::Print(ostream & stream) const{
         << BufferSize << endl;
 
     for(int i=0; i<NumFields; i++)
-        stream << "\tfield" << i << " size" << FieldSize[i] << endl;
+        stream << "\tfield " << i << " size " << FieldSize[i] << endl;
 
     if(Packing) stream << "\tPacking\n";
     else stream << "\tNot packing\n";
     stream << "Contents : " << Buffer << endl;
 }
-

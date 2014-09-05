@@ -44,3 +44,38 @@ int Person::Pack(LengthTextBuffer & Buffer){
     return result;
 }
 
+int Person::Unpack(FixedTextBuffer & Buffer){
+    int result;
+    Buffer.Print(cout);
+    result = Buffer.Unpack(LastName);
+    result = result && Buffer.Unpack(FirstName);
+    result = result && Buffer.Unpack(Address);
+    result = result && Buffer.Unpack(City);
+    result = result && Buffer.Unpack(State);
+    result = result && Buffer.Unpack(ZipCode);
+    return result;
+}
+
+int Person::Pack(FixedTextBuffer & Buffer){
+    int result;
+    Buffer.Clear();
+    result = Buffer.Pack(LastName);
+    result = result && Buffer.Pack(FirstName);
+    result = result && Buffer.Pack(Address);
+    result = result && Buffer.Pack(City);
+    result = result && Buffer.Pack(State);
+    result = result && Buffer.Pack(ZipCode);
+    return result;
+}
+
+int Person::InitBuffer(FixedTextBuffer & Buffer){
+    int result;
+    result = Buffer.AddField(10);
+    result = result && Buffer.AddField(10);
+    result = result && Buffer.AddField(15);
+    result = result && Buffer.AddField(15);
+    result = result && Buffer.AddField(2);
+    result = result && Buffer.AddField(9);
+    return result;
+}
+
