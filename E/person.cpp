@@ -46,7 +46,6 @@ int Person::Pack(LengthTextBuffer & Buffer){
 
 int Person::Unpack(FixedTextBuffer & Buffer){
     int result;
-    Buffer.Print(cout);
     result = Buffer.Unpack(LastName);
     result = result && Buffer.Unpack(FirstName);
     result = result && Buffer.Unpack(Address);

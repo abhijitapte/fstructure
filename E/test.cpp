@@ -27,11 +27,12 @@ void testFixText(){
     Person q; 
     ifstream TestIn("fixtext.dat", ios::in|ios::binary);
     FixedTextBuffer InBuff(6);
+    InBuff.Clear();
     Person::InitBuffer(InBuff);
     InBuff.Read(TestIn);
-    //Buff.Print(cout);
-    //q.Unpack(InBuff);
-    //q.Print(cout);
+    InBuff.Print(cout);
+    q.Unpack(InBuff);
+    q.Print(cout);
 }
 void testLenText(){
     Person p;

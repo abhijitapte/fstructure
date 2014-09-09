@@ -91,7 +91,8 @@ int FixedTextBuffer::Pack(const char *str){
 
 int FixedTextBuffer::Unpack(char *str){
     short len;
-    if(NextField >= NumFields||Packing) return 0;
+    if(NextField >= NumFields) return 0;
+    //if(NextField >= NumFields||Packing) return 0;
 
     int start = NextCharacter;
     int packSize = FieldSize[NextField];
