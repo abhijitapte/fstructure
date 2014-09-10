@@ -2,6 +2,7 @@
 #include<cstring>
 #include"lentext.cpp"
 #include"fixtext.cpp"
+#include"deltext.cpp"
 #include"person.cpp"
 using namespace std;
 
