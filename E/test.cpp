@@ -6,6 +6,33 @@
 #include"person.cpp"
 using namespace std;
 
+void testDelText(){
+    int result;
+    Person p;
+    strcpy(p.LastName, "taware");
+    strcpy(p.FirstName, "abhijit");
+    strcpy(p.Address, "dange");
+    strcpy(p.City, "pune");
+    strcpy(p.State, "ma");
+    strcpy(p.ZipCode, "33");
+    p.Print(cout);
+    DelimTextBuffer Buff(6);
+    p.Pack(Buff);
+    Buff.Print(cout);
+    ofstream TestOut("deltext.dat", ios::out|ios::binary);
+    Buff.Write(TestOut);
+    TestOut.close();
+   
+    Person q; 
+    ifstream TestIn("deltext.dat", ios::in|ios::binary);
+    DelimTextBuffer InBuff(6);
+    InBuff.Clear();
+    InBuff.Read(TestIn);
+    InBuff.Print(cout);
+    q.Unpack(InBuff);
+    q.Print(cout);
+}
+
 void testFixText(){
     int result;
     Person p;
@@ -35,6 +62,7 @@ void testFixText(){
     q.Unpack(InBuff);
     q.Print(cout);
 }
+
 void testLenText(){
     Person p;
     LengthTextBuffer Buff;
@@ -68,8 +96,9 @@ void testLenText(){
 }
 
 int main(){
+    testDelText();
     //testLenText();
-    testFixText();
+    //testFixText();
     return 0;
 }
 

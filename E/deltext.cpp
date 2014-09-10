@@ -79,4 +79,3 @@ void DelimTextBuffer::Print(ostream & stream) const{
         << "\nand Buffer size " << BufferSize << endl;
 }
 
-

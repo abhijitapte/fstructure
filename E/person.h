@@ -11,6 +11,8 @@ class Person{
         Person();
         void Print(ostream &);
         void Clear();
+        int Unpack(DelimTextBuffer &);
+        int Pack(DelimTextBuffer &);
         int Unpack(LengthTextBuffer &);
         int Pack(LengthTextBuffer &);
         int Unpack(FixedTextBuffer &);
