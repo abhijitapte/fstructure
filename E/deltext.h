@@ -6,8 +6,7 @@ class DelimTextBuffer{
         DelimTextBuffer(char delim='|', int maxBytes=1000);
         void Clear();
         int Read(istream &);
-        int Write(ostream &);
-        //int Write(ostream &) const;
+        int Write(ostream &) const;
         int Pack(const char *, int size=-1);
         int Unpack(char *);
         void Print(ostream &) const;

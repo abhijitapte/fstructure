@@ -16,6 +16,7 @@ void testDelText(){
     strcpy(p.State, "ma");
     strcpy(p.ZipCode, "33");
     p.Print(cout);
+
     DelimTextBuffer Buff(6);
     p.Pack(Buff);
     Buff.Print(cout);

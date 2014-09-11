@@ -15,6 +15,7 @@ void DelimTextBuffer::Clear(){
 
 void DelimTextBuffer::Init(char delim, int maxBytes){
     Delim=delim;
+    Delim='|';
     DelimStr[0] = Delim;
     DelimStr[1] = 0;
     if(maxBytes<0) maxBytes=0;
@@ -32,7 +33,7 @@ int DelimTextBuffer::Read(istream & stream){
     return stream.good();
 }
 
-int DelimTextBuffer::Write(ostream & stream) {
+int DelimTextBuffer::Write(ostream & stream) const{
     stream.write((char*)(&BufferSize), sizeof(BufferSize));
     stream.write(Buffer, BufferSize);
     return stream.good();
@@ -47,11 +48,12 @@ int DelimTextBuffer::Pack(const char *str, int size){
     if(len > strlen(str)) return 0;
 
     int start = NextBytes;
-    NextBytes += (len + sizeof(len));
+    NextBytes += (len + 1);
     if(NextBytes > MaxBytes) return 0;
     memcpy(&Buffer[start], str, len);
     Buffer[start+len] = Delim;
     BufferSize = NextBytes;
+    //strcat(&Buffer[start+len], DelimStr);
     return 1;
 }
 
@@ -60,12 +62,12 @@ int DelimTextBuffer::Unpack(char *str){
     if(NextBytes >= BufferSize) return 0;
 
     int start = NextBytes;
-    for(int i=start; i<BufferSize; i++)
+    for(int i=start; i<BufferSize; i++){
         if(Buffer[i]==Delim){
             len = i - start;
             break;
         }
-
+    }
     if(len==-1) return 0;
     NextBytes += len + 1;
     if(NextBytes > BufferSize) return 0;
@@ -75,7 +77,7 @@ int DelimTextBuffer::Unpack(char *str){
 }
 
 void DelimTextBuffer::Print(ostream & stream) const{
-    stream << "Buffer has max characters " << MaxBytes
-        << "\nand Buffer size " << BufferSize << endl;
+    stream << "Buffer has max characters :" << MaxBytes
+        << "\nand Buffer size :" << BufferSize << endl;
 }
 
