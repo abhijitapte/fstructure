@@ -1,103 +1,67 @@
 #include<fstream>
 #include<cstring>
-#include"lentext.cpp"
-#include"fixtext.cpp"
-#include"deltext.cpp"
+#include"delim.cpp"
 #include"person.cpp"
 using namespace std;
 
-void testDelText(){
-    int result;
-    Person p;
-    strcpy(p.LastName, "taware");
-    strcpy(p.FirstName, "abhijit");
-    strcpy(p.Address, "dange");
-    strcpy(p.City, "pune");
-    strcpy(p.State, "ma");
-    strcpy(p.ZipCode, "33");
-    p.Print(cout);
+Person abhijit, anaya;
 
-    DelimTextBuffer Buff(6);
-    p.Pack(Buff);
-    Buff.Print(cout);
-    ofstream TestOut("deltext.dat", ios::out|ios::binary);
-    Buff.Write(TestOut);
+template <class IOB>
+void testBuffer(IOB & Buff, char *myfile){
+    Person p;
+    int result;
+    int recaddr1, recaddr2, recaddr3, recaddr4;
+    ofstream TestOut(myfile, ios::out);
+    result = Buff.WriteHeader(TestOut);
+    cout << "write header " << result << endl;
+    abhijit.Pack(Buff);
+    recaddr1 = Buff.Write(TestOut);
+    cout << "write at " << recaddr1 << endl;
+    anaya.Pack(Buff);
+    recaddr2 = Buff.Write(TestOut);
+    cout << "write at " << recaddr2 << endl;
     TestOut.close();
-   
-    Person q; 
-    ifstream TestIn("deltext.dat", ios::in|ios::binary);
-    DelimTextBuffer InBuff(6);
-    InBuff.Clear();
-    InBuff.Read(TestIn);
-    InBuff.Print(cout);
-    q.Unpack(InBuff);
-    q.Print(cout);
+
+    ifstream TestIn(myfile, ios::in);
+    result = Buff.ReadHeader(TestIn);
+    cout << "read header " << result << endl;
+    p.Print(cout, "First record:");
+    Buff.DRead(TestIn, recaddr2);
+    p.UnPack(Buff);
+    p.Print(cout, "Second record:");
+    Buff.DRead(TestIn, recaddr1);
+    p.UnPack(Buff);
 }
 
-void testFixText(){
-    int result;
-    Person p;
-    FixedTextBuffer Buff(6);
+void InitPerson(){
+    cout << "Initializing 3 ppl" << endl;
+    strcpy(abhijit.LastName, "taware");
+    strcpy(abhijit.FirstName, "abhijit");
+    strcpy(abhijit.Address, "dange");
+    strcpy(abhijit.City, "pune");
+    strcpy(abhijit.State, "ma");
+    strcpy(abhijit.ZipCode, "33");
+    abhijit.Print(cout);
+
+    strcpy(anaya.LastName, "taware");
+    strcpy(anaya.FirstName, "abhijit");
+    strcpy(anaya.Address, "dange");
+    strcpy(anaya.City, "pune");
+    strcpy(anaya.State, "ma");
+    strcpy(anaya.ZipCode, "33");
+    anaya.Print(cout);
+}
+
+void testDelim(){
+    cout << "\nTesting DelimTextBuffer" << endl;
+    DelimFieldBuffer::SetDefaultDelim('|');
+    DelimFieldBuffer Buff;
     Person::InitBuffer(Buff);
-    strcpy(p.LastName, "taware");
-    strcpy(p.FirstName, "abhijit");
-    strcpy(p.Address, "dange");
-    strcpy(p.City, "pune");
-    strcpy(p.State, "ma");
-    strcpy(p.ZipCode, "33");
-    p.Print(cout);
-    p.Pack(Buff);
-    Buff.Print(cout);
-
-    ofstream TestOut("fixtext.dat", ios::out|ios::binary);
-    Buff.Write(TestOut);
-    TestOut.close();
-   
-    Person q; 
-    ifstream TestIn("fixtext.dat", ios::in|ios::binary);
-    FixedTextBuffer InBuff(6);
-    InBuff.Clear();
-    Person::InitBuffer(InBuff);
-    InBuff.Read(TestIn);
-    InBuff.Print(cout);
-    q.Unpack(InBuff);
-    q.Print(cout);
-}
-
-void testLenText(){
-    Person p;
-    LengthTextBuffer Buff;
-    Buff.Init(100);
-    strcpy(p.LastName, "taware");
-    strcpy(p.FirstName, "abhijit");
-    strcpy(p.Address, "dange");
-    strcpy(p.City, "pune");
-    strcpy(p.State, "ma");
-    strcpy(p.ZipCode, "33");
-    p.Print(cout);
-    Buff.Print(cout);
-    cout << "pack person "<< p.Pack(Buff)<<endl;
-    Buff.Print(cout);
-
-    ofstream TestOut("lentext.dat", ios::out|ios::binary);
-    Buff.Write(TestOut);
-    Buff.Write(TestOut);
-    strcpy(p.FirstName, "anaya");
-    p.Print(cout);
-    p.Pack(Buff);
-    Buff.Print(cout);
-    Buff.Write(TestOut);
-    TestOut.close();
-
-    Person p2;
-    ifstream TestIn("lentext.dat", ios::in|ios::binary);
-    cout << "read " << Buff.Read(TestIn) << endl;
-    cout << "unpack " << p2.Unpack(Buff) << endl;
-    p2.Print(cout);
+    testBuffer(Buff, "delim.dat");
 }
 
 int main(){
-    testDelText();
+    testDelim();
     //testLenText();
     //testFixText();
     return 0;
