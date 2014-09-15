@@ -1,6 +1,5 @@
 #include<iostream>
 #include"person.h"
-#include"delim.h"
 using namespace std;
 
 void Person::Print(ostream & stream, char *label){
@@ -25,7 +24,7 @@ void Person::Clear(){
     State[0]=0;     ZipCode[0]=0;
 }
 
-int Person::Unpack(IOBuffer & Buffer){
+int Person::Unpack(IOBuffer &Buffer){
     int numBytes;
     Clear();
     numBytes = Buffer.Unpack(LastName);
@@ -49,7 +48,7 @@ int Person::Unpack(IOBuffer & Buffer){
     return 1;
 }
 
-int Person::Pack(IOBuffer & Buffer) const{
+int Person::Pack(IOBuffer &Buffer) const{
     int numBytes;
     Buffer.Clear();
     numBytes = Buffer.Pack(LastName);

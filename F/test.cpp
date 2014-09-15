@@ -1,8 +1,9 @@
+#include<iostream>
 #include<fstream>
 #include<cstring>
-#include"delim.cpp"
-#include"person.cpp"
-#include"buffile.cpp"
+//#include"delim.cpp"
+#include"person.h"
+//#include"buffile.cpp"
 using namespace std;
 
 Person abhijit, anaya;

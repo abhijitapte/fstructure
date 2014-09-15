@@ -1,8 +1,9 @@
+#include"iobuffer.h"
 using namespace std;
 
 class BufferFile{
     public:
-        BufferFile(IOBuffer &);
+        BufferFile(IOBuffer & );
         int Open(char *fname, int MODE);
         int Create(char *fname, int MODE);
         int Close();
@@ -18,3 +19,4 @@ class BufferFile{
         int ReadHeader();
         int WriteHeader();
 };
+
