@@ -1,4 +1,6 @@
 #include<iostream>
+#include<cstring>
+#include"iobuffer.h"
 using namespace std;
 
 IOBuffer::IOBuffer(int maxBytes){
@@ -11,7 +13,7 @@ IOBuffer & IOBuffer::operator = (const IOBuffer & buffer){
     BufferSize = buffer.BufferSize;
     memcpy(Buffer, buffer.Buffer, buffer.BufferSize);
     NextByte = buffer.NextByte;
-    Packing = Packing
+    Packing = buffer.Packing;
     return *this;
 }
 
@@ -24,7 +26,7 @@ void IOBuffer::Print(ostream & stream)const{
     stream<<"MaxBytes : "<<MaxBytes<<" BufferSize : "<<BufferSize<<endl;
 }
 
-void IOBuffer::Init(int maxBytes){
+int IOBuffer::Init(int maxBytes){
     Initialized = 0;
     if(MaxBytes < 0) maxBytes=0;
     MaxBytes = maxBytes;

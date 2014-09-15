@@ -2,6 +2,7 @@
 #include<cstring>
 #include"delim.cpp"
 #include"person.cpp"
+#include"buffile.cpp"
 using namespace std;
 
 Person abhijit, anaya;
@@ -27,10 +28,10 @@ void testBuffer(IOB & Buff, char *myfile){
     cout << "read header " << result << endl;
     p.Print(cout, "First record:");
     Buff.DRead(TestIn, recaddr2);
-    p.UnPack(Buff);
+    p.Unpack(Buff);
     p.Print(cout, "Second record:");
     Buff.DRead(TestIn, recaddr1);
-    p.UnPack(Buff);
+    p.Unpack(Buff);
 }
 
 void InitPerson(){

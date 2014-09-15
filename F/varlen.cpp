@@ -1,4 +1,6 @@
 #include<iostream>
+#include<cstring>
+#include"varlen.h"
 using namespace std;
 
 VariableLengthBuffer::VariableLengthBuffer(int maxBytes)

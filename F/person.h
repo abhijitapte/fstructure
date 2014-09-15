@@ -7,10 +7,9 @@ class Person{
         char State[3];        char ZipCode[10];
         Person();
         static int InitBuffer(DelimFieldBuffer &);
-        static int InitBuffer(LengthFieldBuffer &);
-        static int InitBuffer(FixedFieldBuffer &);
         int Unpack(IOBuffer &);
         int Pack(IOBuffer &) const;
         void Clear();
         void Print(ostream &, char *label=0);
 };
+

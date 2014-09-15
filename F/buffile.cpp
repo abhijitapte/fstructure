@@ -1,4 +1,5 @@
 #include<iostream>
+#include"buffile.h"
 using namespace std;
 
 BufferFile::BufferFile(IOBuffer & from):Buffer(from){}

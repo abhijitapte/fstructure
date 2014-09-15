@@ -1,4 +1,4 @@
-#include<iostream>
+#include"varlen.h"
 using namespace std;
 
 class DelimFieldBuffer: public VariableLengthBuffer{

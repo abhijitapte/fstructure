@@ -10,16 +10,16 @@ class IOBuffer{
         virtual void Print(ostream &) const;
         int Init(int maxBytes);
         virtual int Read(istream &)=0;
-        virtual int Write(ostream &)=0;
+        virtual int Write(ostream &)const=0;
         virtual int DRead(istream &, int recref);
-        virtual int DWead(ostream &, int recref) const;
+        virtual int DWrite(ostream &, int recref) const;
         virtual int ReadHeader(istream &);
-        virtual int WriteHeader(istream &) const;
+        virtual int WriteHeader(ostream &) const;
     protected:
         int Initialized;
         char * Buffer;
         int BufferSize;
         int MaxBytes;
-        int NextBytes;
+        int NextByte;
         int Packing;
 }; 

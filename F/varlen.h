@@ -1,10 +1,11 @@
+#include"iobuffer.h"
 using namespace std;
 
 class VariableLengthBuffer: public IOBuffer{
     public:
         VariableLengthBuffer(int MaxBytes=1000);
-        VariableLengthBuffer(const VariableLengthBuffe & buffer)
-            :IOBuffer(buffer);//copy constructor.
+        VariableLengthBuffer(const VariableLengthBuffer & buffer)
+            :IOBuffer(buffer){}//copy constructor.
         void Clear();
         int Read(istream &);
         int Write(ostream &) const;

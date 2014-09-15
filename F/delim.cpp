@@ -2,6 +2,7 @@
 #include<cstring>
 #include<iostream>
 #include"delim.h"
+//#include"varlen.cpp"
 using namespace std;
 
 DelimFieldBuffer::DelimFieldBuffer(char delim, int maxBytes)
@@ -10,7 +11,7 @@ DelimFieldBuffer::DelimFieldBuffer(char delim, int maxBytes)
 }
 
 void DelimFieldBuffer::Clear(){
-    VariableLengthBuffer::Clear()
+    VariableLengthBuffer::Clear();
 }
 
 void DelimFieldBuffer::Init(char delim){
@@ -19,7 +20,6 @@ void DelimFieldBuffer::Init(char delim){
     if(delim==-1) Delim = DefaultDelim;
     else Delim=delim;
     //Delim='|';
-    return 1;
 }
 
 int DelimFieldBuffer::ReadHeader(istream & stream){
@@ -49,22 +49,22 @@ int DelimFieldBuffer::Pack(const void *field, int size){
     if(size>=0) len=size;
     else len=strlen((char*)field);
 
-    if(len > (short)strlen((char*)str)) return -1;
+    if(len > (short)strlen((char*)field)) return -1;
 
-    int start = NextBytes;
-    NextBytes += (len + 1);
-    if(NextBytes > MaxBytes) return -1;
+    int start = NextByte;
+    NextByte += (len + 1);
+    if(NextByte > MaxBytes) return -1;
     memcpy(&Buffer[start], field, len);
     Buffer[start+len] = Delim;
-    BufferSize = NextBytes;
+    BufferSize = NextByte;
     return len;
 }
 
 int DelimFieldBuffer::Unpack(void *field, int maxBytes){
     int len=-1;
-    if(NextBytes >= BufferSize) return -1;
+    if(NextByte >= BufferSize) return -1;
 
-    int start = NextBytes;
+    int start = NextByte;
     for(int i=start; i<BufferSize; i++){
         if(Buffer[i]==Delim){
             len = i - start;
@@ -72,9 +72,9 @@ int DelimFieldBuffer::Unpack(void *field, int maxBytes){
         }
     }
     if(len==-1) return -1;
-    NextBytes += len + 1;
-    if(NextBytes > BufferSize) return -1;
-    strncpy(field, &Buffer[start], len);
+    NextByte += len + 1;
+    if(NextByte > BufferSize) return -1;
+    memcpy(field, &Buffer[start], len);
     if(maxBytes > len || maxBytes==-1)
     ((char*)field)[len]=0;
     return len;
