@@ -2,7 +2,6 @@
 #include<cstring>
 #include<iostream>
 #include"delim.h"
-//#include"varlen.cpp"
 using namespace std;
 
 DelimFieldBuffer::DelimFieldBuffer(char delim, int maxBytes)
@@ -19,7 +18,6 @@ void DelimFieldBuffer::Init(char delim){
     Clear();
     if(delim==-1) Delim = DefaultDelim;
     else Delim=delim;
-    //Delim='|';
 }
 
 int DelimFieldBuffer::ReadHeader(istream & stream){

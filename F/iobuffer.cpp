@@ -23,7 +23,8 @@ void IOBuffer::Clear(){
 }
 
 void IOBuffer::Print(ostream & stream)const{
-    stream<<"MaxBytes : "<<MaxBytes<<" BufferSize : "<<BufferSize<<endl;
+    stream<<"MaxBytes : "<<MaxBytes<<" BufferSize : "<<BufferSize<<" NextByte : "<<NextByte<<endl;
+    stream<<"Buffer :" <<Buffer<<endl;
 }
 
 int IOBuffer::Init(int maxBytes){
