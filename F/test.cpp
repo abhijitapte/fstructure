@@ -46,7 +46,7 @@ void InitPerson(){
     abhijit.Print(cout);
 
     strcpy(anaya.LastName, "taware");
-    strcpy(anaya.FirstName, "abhijit");
+    strcpy(anaya.FirstName, "anaya");
     strcpy(anaya.Address, "dange");
     strcpy(anaya.City, "pune");
     strcpy(anaya.State, "ma");
@@ -63,6 +63,7 @@ void testDelim(){
 }
 
 int main(){
+    InitPerson();
     testDelim();
     //testLenText();
     //testFixText();
