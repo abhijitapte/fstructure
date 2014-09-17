@@ -1,4 +1,5 @@
-#include"length.h"
+#include"fixfld.h"
+//#include"length.h"
 //#include"delim.h"
 using namespace std;
 
@@ -13,7 +14,8 @@ class Person{
         int Pack(IOBuffer &) const;
         void Clear();
         void Print(ostream &, char *label=0);
-        static int InitBuffer(LengthFieldBuffer &);
+        static int InitBuffer(FixedFieldBuffer &);
+        //static int InitBuffer(LengthFieldBuffer &);
         //static int InitBuffer(DelimFieldBuffer &);
 };
 

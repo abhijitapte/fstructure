@@ -66,11 +66,21 @@ int Person::Pack(IOBuffer &Buffer) const{
     return 1;
 }
 
-int Person::InitBuffer(LengthFieldBuffer &Buffer){
-    return 1;
+int Person::InitBuffer(FixedFieldBuffer &Buffer){
+    int result;
+    result = Buffer.AddField(10); //LastName
+    result = result && Buffer.AddField(10); //FirstName
+    result = result && Buffer.AddField(15); //Address
+    result = result && Buffer.AddField(15); //City
+    result = result && Buffer.AddField(2);  //State
+    result = result && Buffer.AddField(9);  //ZipCode
+    return result;
 }
 
 /*
+int Person::InitBuffer(LengthFieldBuffer &Buffer){
+    return 1;
+}
 int Person::InitBuffer(DelimFieldBuffer &Buffer){
     return 1;
 }

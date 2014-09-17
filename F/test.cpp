@@ -55,6 +55,14 @@ void testBuffer(IOB & Buff, char *myfile){
     p.Print(cout, "Second record:");
 }
 
+void testFixedField(){
+    cout << "\nTesting FixedTextBuffer" << endl;
+    FixedFieldBuffer Buff(6);
+    Person::InitBuffer(Buff);
+    testBuffer(Buff, "fixlen.dat");
+}
+
+/*
 void testLength(){
     cout << "\nTesting LengthTextBuffer" << endl;
     LengthFieldBuffer Buff;
@@ -63,7 +71,6 @@ void testLength(){
     testBuffer(Buff, "length.dat");
 }
 
-/*
 void testDelim(){
     cout << "\nTesting DelimTextBuffer" << endl;
     DelimFieldBuffer::SetDefaultDelim('|');
@@ -75,9 +82,9 @@ void testDelim(){
 
 int main(){
     InitPerson();
-    testLength();
+    //testLength();
     //testDelim();
-    //testFixText();
+    testFixedField();
     return 0;
 }
 
