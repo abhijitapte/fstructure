@@ -66,7 +66,12 @@ int Person::Pack(IOBuffer &Buffer) const{
     return 1;
 }
 
-int Person::InitBuffer(DelimFieldBuffer &Buffer){
+int Person::InitBuffer(LengthFieldBuffer &Buffer){
     return 1;
 }
 
+/*
+int Person::InitBuffer(DelimFieldBuffer &Buffer){
+    return 1;
+}
+*/

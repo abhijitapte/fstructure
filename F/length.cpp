@@ -57,7 +57,7 @@ int LengthFieldBuffer::Pack(const void *field, int size){
 }
 
 int LengthFieldBuffer::Unpack(void *field, int maxBytes){
-    int len=-1;
+    short len=-1;
     if(NextByte >= BufferSize) return -1; // no more fields.
 
     int start = NextByte;

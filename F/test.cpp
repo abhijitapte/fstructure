@@ -36,6 +36,7 @@ void testBuffer(IOB & Buff, char *myfile){
     abhijit.Pack(Buff);
     recaddr1 = Buff.Write(TestOut);
     cout << "write at " << recaddr1 << endl;
+
     anaya.Pack(Buff);
     Buff.Print(cout);
     recaddr2 = Buff.Write(TestOut);
@@ -52,9 +53,17 @@ void testBuffer(IOB & Buff, char *myfile){
     Buff.DRead(TestIn, recaddr2);
     p.Unpack(Buff);
     p.Print(cout, "Second record:");
-
 }
 
+void testLength(){
+    cout << "\nTesting LengthTextBuffer" << endl;
+    LengthFieldBuffer Buff;
+    Buff.Init();
+    Person::InitBuffer(Buff);
+    testBuffer(Buff, "length.dat");
+}
+
+/*
 void testDelim(){
     cout << "\nTesting DelimTextBuffer" << endl;
     DelimFieldBuffer::SetDefaultDelim('|');
@@ -62,11 +71,12 @@ void testDelim(){
     Person::InitBuffer(Buff);
     testBuffer(Buff, "delim.dat");
 }
+*/
 
 int main(){
     InitPerson();
-    testDelim();
-    //testLenText();
+    testLength();
+    //testDelim();
     //testFixText();
     return 0;
 }
