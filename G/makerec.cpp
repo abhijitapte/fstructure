@@ -1,13 +1,11 @@
 #include<iostream>
-#include"recordng.h"
-#include"delim.h"
 using namespace std;
-//class DelimFieldBuffer;
-class BufferFile;
+#include"recordng.h"
 
 int main(){
     int recaddr;
     DelimFieldBuffer Buffer;
+    DelimFieldBuffer::SetDefaultDelim('|');
     BufferFile RecordingFile(Buffer);
     RecordingFile.Create("record.dat", ios::out);
     Recording *R[10];

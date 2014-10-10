@@ -1,4 +1,7 @@
+#include<cstring>
 #include"iobuffer.h"
+#include"buffile.h"
+#include"delim.h"
 using namespace std;
 
 class Recording{
@@ -7,7 +10,8 @@ class Recording{
         Recording(char *label, char *idNum, char *title, char * composer, char * artist);
         char IdNum[7]; char Title[30]; char Label[7];
         char Composer[30]; char Artist[30];
-        char *Key() const;
+        string Key() const;
+        //char *Key() const;
         int Unpack(IOBuffer &);
         int Pack(IOBuffer &) const;
         void Print(ostream &, char *label=0) const;

@@ -1,5 +1,5 @@
 #include<cstring>
-#include<strstream>
+#include<sstream>
 #include"recordng.h"
 using namespace std;
 
@@ -9,14 +9,15 @@ Recording::Recording(){
 }
 
 Recording::Recording(char *label, char *idNum, char *title,
-        char *composer, char *artist){
+    char *composer, char *artist){
     strcpy(Label, label); strcpy(IdNum, idNum);
     strcpy(Title, title); strcpy(Composer, composer);
     strcpy(Artist, artist);
 }
 
-char * Recording::Key() const{
-    ostrstream key;
+//char * Recording::Key() const{
+string Recording::Key() const{
+    ostringstream key;
     key << Label << IdNum << ends;
     return key.str();
 }
